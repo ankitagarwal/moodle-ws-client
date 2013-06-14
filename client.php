@@ -43,14 +43,16 @@ class xmlrpc extends wsclient {
 
         $serverurl = $this->domain . '/webservice/xmlrpc/server.php'. '?wstoken=' . $this->token;
         $post = xmlrpc_encode_request($func, array($params));
-        $result = $this->curl->post($serverurl, $post);
-        $result = xmlrpc_decode($result);
+        $resp = $this->curl->post($serverurl, $post);
+        $result = xmlrpc_decode($resp);
 
         $this->debugdata = "<pre>".PHP_EOL.
             "Serverurl: $serverurl".PHP_EOL.
             "Params:".PHP_EOL.
             print_r($params, true).
-            PHP_EOL."Result:".
+            PHP_EOL."Result (Raw):".
+            print_r($resp, true).
+            PHP_EOL."Result (Decoded):".
             print_r($result, true).
             PHP_EOL."</pre>";
 
@@ -62,7 +64,7 @@ class xmlrpc extends wsclient {
 $client = new xmlrpc("ebd1167dbf865ac5186c3157469f5764", "http://ankit.moodle.local/stable/master/moodle/");
 $params = array (
                 'roleid' => 3,
-                'userid' => 2,
+                'userid' => 31,
                 'contextlevel' => "course",
                 'instanceid' => 2
                 );
